@@ -1,23 +1,10 @@
-from random import randint, choice, shuffle
 from tkinter import *
-from tkinter import messagebox
 import pyperclip
+from func import save_data, generate_password
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
-def generate_password():
-    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-    symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+def password_button():
+    random_password = generate_password()
 
-    letters_random = [choice(letters) for _ in range(randint(8, 10))]
-
-    symbols_random = [choice(symbols) for _ in range(randint(2, 4))]
-
-    numbers_random = [choice(numbers) for _ in range(randint(2, 4))]
-
-    password_list = letters_random + symbols_random + numbers_random
-    shuffle(password_list)
-
-    random_password = "".join(password_list)
     password_entry.delete(0, END)
     password_entry.insert(0, random_password)
     pyperclip.copy(random_password)
@@ -29,17 +16,9 @@ def save():
     email = email_entry.get()
     password = password_entry.get()
 
-    if len(website) == 0 or len(email) == 0 or len(password) == 0:
-        messagebox.showinfo(title="Ooops", message="Field must be filled, try again")
-    else:
-        its_ok = messagebox.askokcancel(title=website, message=f"This is correct data:\n"
-                                                               f"{website}\nEmail:{email}\nPassword:{password}")
-        if its_ok:
-            with open("data.txt", "a") as data:
-                data.write(f"{website} | {email} | {password}\n")
-
-            website_entry.delete(0, END)
-            password_entry.delete(0, END)
+    if save_data(website, email, password):
+        website_entry.delete(0, END)
+        password_entry.delete(0, END)
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
@@ -71,7 +50,7 @@ email_entry.insert(0, "example@gmail.com")
 password_entry = Entry(width=33)
 password_entry.grid(column=1, row=3, sticky="w")
 
-generate_button = Button(text="Generate Password", command=generate_password)
+generate_button = Button(text="Generate Password", command=password_button)
 generate_button.grid(column=2, row=3)
 
 add_button = Button(text="Add", width=44, command=save)
