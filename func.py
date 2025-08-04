@@ -1,0 +1,33 @@
+from random import choice, randint, shuffle
+from tkinter import messagebox
+
+def generate_password():
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+
+    letters_random = [choice(letters) for _ in range(randint(8, 10))]
+
+    symbols_random = [choice(symbols) for _ in range(randint(2, 4))]
+
+    numbers_random = [choice(numbers) for _ in range(randint(2, 4))]
+
+    password_list = letters_random + symbols_random + numbers_random
+    shuffle(password_list)
+
+    random_password = "".join(password_list)
+    return random_password
+
+def save_data(website, email, password):
+    if len(website) == 0 or len(email) == 0 or len(password) == 0:
+        messagebox.showinfo(title="Field empty", message="Field must be filled, try again")
+        return None
+    else:
+        its_ok = messagebox.askokcancel(title=website, message=f"This is correct data:\n"
+                                                               f"{website}\nEmail:{email}\nPassword:{password}")
+        if its_ok:
+            with open("data.txt", "a") as data:
+                data.write(f"{website} | {email} | {password}\n")
+
+            return True
+        return None
