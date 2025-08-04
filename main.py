@@ -12,11 +12,7 @@ def password_button():
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
 def save():
-    website = website_entry.get()
-    email = email_entry.get()
-    password = password_entry.get()
-
-    if save_data(website, email, password):
+    if save_data(website_entry.get(), email_entry.get(), password_entry.get()):
         website_entry.delete(0, END)
         password_entry.delete(0, END)
 

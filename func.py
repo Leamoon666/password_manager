@@ -1,5 +1,7 @@
 from random import choice, randint, shuffle
 from tkinter import messagebox
+import json
+
 
 def generate_password():
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
@@ -19,15 +21,25 @@ def generate_password():
     return random_password
 
 def save_data(website, email, password):
+    information = {
+        website: {
+            "email": email,
+            "password": password
+        }
+    }
     if len(website) == 0 or len(email) == 0 or len(password) == 0:
         messagebox.showinfo(title="Field empty", message="Field must be filled, try again")
         return None
     else:
-        its_ok = messagebox.askokcancel(title=website, message=f"This is correct data:\n"
-                                                               f"{website}\nEmail:{email}\nPassword:{password}")
-        if its_ok:
-            with open("data.txt", "a") as data:
-                data.write(f"{website} | {email} | {password}\n")
+        try:
+            with open("data.json", "r") as data_file:
+                data = json.load(data_file)
+        except (FileNotFoundError, json.decoder.JSONDecodeError):
+            with open("data.json", "w") as data_file:
+                json.dump(information, data_file, indent=4)
+        else:
+            data.update(information)
+            with open("data.json", "w") as data_file:
+                json.dump(data, data_file, indent=4)
 
-            return True
-        return None
+        return True
