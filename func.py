@@ -43,3 +43,16 @@ def save_data(website, email, password):
                 json.dump(data, data_file, indent=4)
 
         return True
+
+def find_password(website):
+    try:
+        with open("data.json", "r") as data_file:
+            all_data = json.load(data_file)
+            info = all_data[website]
+    except KeyError:
+        messagebox.showerror(title="Data error", message="No detail for the website exist")
+    except FileNotFoundError:
+        messagebox.showerror(title="File error", message="File not found")
+    else:
+        messagebox.showinfo(title=website, message=f"Email: {info['email']}\nPassword: {info['password']}")
+

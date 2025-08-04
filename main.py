@@ -1,6 +1,6 @@
 from tkinter import *
 import pyperclip
-from func import save_data, generate_password
+from func import save_data, generate_password, find_password
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def password_button():
     random_password = generate_password()
@@ -8,6 +8,9 @@ def password_button():
     password_entry.delete(0, END)
     password_entry.insert(0, random_password)
     pyperclip.copy(random_password)
+
+def search_website():
+    find_password(website_entry.get())
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
@@ -35,7 +38,7 @@ email_label.grid(column=0, row=2)
 password_label = Label(text="Password:")
 password_label.grid(column=0, row=3)
 
-website_entry = Entry(width=52)
+website_entry = Entry(width=33)
 website_entry.grid(column=1, row=1, columnspan=2, sticky="w")
 website_entry.focus()
 
@@ -51,6 +54,9 @@ generate_button.grid(column=2, row=3)
 
 add_button = Button(text="Add", width=44, command=save)
 add_button.grid(column=1, row=4, columnspan=2)
+
+search_button = Button(text="Search", width=14, command=search_website)
+search_button.grid(column=2, row=1)
 
 
 window.mainloop()
