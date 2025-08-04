@@ -1,7 +1,8 @@
 from tkinter import *
 import pyperclip
 from func import save_data, generate_password, find_password
-# ---------------------------- PASSWORD GENERATOR ------------------------------- #
+
+
 def password_button():
     random_password = generate_password()
 
@@ -12,14 +13,14 @@ def password_button():
 def search_website():
     find_password(website_entry.get())
 
-# ---------------------------- SAVE PASSWORD ------------------------------- #
+
 
 def save():
     if save_data(website_entry.get(), email_entry.get(), password_entry.get()):
         website_entry.delete(0, END)
         password_entry.delete(0, END)
 
-# ---------------------------- UI SETUP ------------------------------- #
+
 window = Tk()
 window.title("Password Manager")
 window.config(padx=50, pady=50)
